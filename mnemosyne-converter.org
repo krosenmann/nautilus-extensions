@@ -107,6 +107,8 @@ Mnemosyne-converter -- это расширение для преобразова
 Xhu	Xhi<br>Xh<br>Jii
 Xh	Xhu<br>Xhi<br>Jii
 #+end_example
+
+*** TODO Пофиксить кривой разворот карточки
 #+name: converter
 #+begin_src python +n 1 :preamble "# -*- coding: utf-8 -*-" :python 'python3 -i' :session :tangle qstardict-to-mnemosyne.py :results output :tangle qstardict-to-mnemosyne.py
   def converter(text):
