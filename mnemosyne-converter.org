@@ -1,0 +1,100 @@
+#+TITLE: KR's Nautilus Extensions
+#+AUTOR: Роман Зайруллин
+* Установка расширений. 
+В соответствующем разделе С-с С-с в пункте "Установить"
+#+name: Install
+#+begin_src sh
+  chmod +x $1
+  sed -i "1 i#!/usr/bin/env python3" $1
+  mv $1 ~/.local/share/nautilus/scripts/
+  nautilus -q
+#+end_src
+
+#+RESULTS:
+* QStardict -> Mnemosyne
+Мне часто приходится пользоваться слоарями. Терминов, синонимов,
+иностранных слов и т.д. Особенно, англо-русским словарем, однако, хоть
+и применение StarDict или QStarDict чрезвычайно удобно и приятно, но
+одного словаря мало, когда вопрос стоит не только в понимании и
+чтении, но и в изучении языка и, в частности, запоминании лексики и
+другой информации. 
+
+Однако, помимо удобной интеграции и легкости использования,
+QStarDict может сохранять словарные статьи в html и txt.
+#+CAPTION: Словарная статья QStartDict
+[[file:qstrdview.png]]
+#+NAME: regular-article
+#+begin_example
+Full English-Russian
+facilities
+facilities
+сущ.; мн. удобства - community facilities - communications facilities -
+military facilities - production facilities - equipment facilities -
+customs facilities Средства(ссуды) business sector credit ~ источники
+кредитования производственного сектора committed ~ вложенные средства
+community ~ средства коллективного пользования credit ~ abroad кредитные
+возможности за рубежом credit ~ to business sector источники
+кредитования предпринимательского сектора deposit ~ депозитные средства
+export ~ экспортные льготы facilities денежные средства ~ оборудование ~
+приспособления ~ производственные мощности ~ сооружения facility:
+facilities вчт. аппаратура facilities вчт. средства facilities вчт.
+устройства ~ for borrowing источники кредитования increased credit ~
+увеличенные банковские кредиты production ~ производственное
+оборудование production ~ производственные мощности public ~
+общественные здания и сооружения reciprocal drawing ~ совместно
+используемые средства заимствования social ~ предприятия социальной
+культуры variable credit ~ переменные источники кредитования
+#+end_example
+
+По-идее, можно пользоваться просто набором файлов, однако, [[http://mnemosyne-proj.org/][Mnemosyne]]
+предоставлет не только удобный интерфейс, но и множество полезных
+функций[fn:1], в частности, импорт и экспорт наборов карточек в
+текстовый файл[fn:2]. 
+Mnemosyne-converter -- это расширение для преобразования файлов
+словарных статей в текстовые колоды для импорта в Mnemosyne. 
+
+* Запуск
+В Nautilus выберите файлы, которые хотите конвертировать в карточки,
+и из меню Scripts (Сценарии) запустите mnemosyne-converter.py
+#+begin_src python :preamble "# -*- coding: utf-8 -*-" :tangle yes 
+  import os
+  import pygi
+  import gi
+  gi.require_version('Gtk', '3.0')
+  from gi.repository import Gtk
+  import notify2
+  notify2.init('mnemosyne')
+  import re
+
+  def notification(*args):
+      """Вывод сообщений на рс гтк"""
+      notify = notify2.Notification(*args)
+      notify.show()
+
+  def main():
+      """Основная функция"""
+      selected = os.environ.get('NAUTILUS_SCRIPT_SELECTED_URIS', '')
+      notification('Debug', selected)
+      currentDir = os.environ.get('NAUTILUS_SCRIPT_CURRENT_URI', '')
+      notification('Debugging', currentDir)
+      targets = selected.splitlines()
+      for target in targets:
+          notification('Test', target)
+
+  if __name__ == '__main__':
+      try:
+          main()
+      except Exception as e:
+          notification('Debug', e)
+
+
+#+end_src
+
+* Footnotes
+
+[fn:1] Из наиболее любопытных функций -- ведение статистики,
+тегирование карточек и объединение их в наборы, настройки сервера для
+синхронизации. Исчерпывающая документация на http://mnemosyne-proj.org/ 
+
+[fn:2] Полный список на домашней странице проекта
+
