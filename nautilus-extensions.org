@@ -3,9 +3,9 @@
 * TODO Установка
 В соответствующем разделе С-с С-с в пункте "Установить"
 #+name: Install
-#+begin_src sh qstartdict-to-mnemosyne.py' :tangle install.sh
+#+begin_src sh qstartdict-to-mnemosyne.py' :tangle no
   chmod +x qstardict-to-mnemosyne.py
-  sed -i "1 i#!/usr/bin/env python3" qstardict-to-mnemosyne.py
+  sed -i "1 i#!/usr/bin/env python3\n# -*- coding: utf-8 -*-" qstardict-to-mnemosyne.py
   mv qstardict-to-mnemosyne.py ~/.local/share/nautilus/scripts/
   echo 'Success '
   nautilus -q
@@ -89,12 +89,14 @@ Mnemosyne-converter -- это расширение для преобразова
       selected = os.environ.get('NAUTILUS_SCRIPT_SELECTED_FILE_PATHS', '')
       currentDir = os.environ.get('NAUTILUS_SCRIPT_CURRENT_URI', '')
       targets = selected.splitlines()
+      currentDir = currentDir.replace(r'file://', '')
       for target in targets:
           with open(target, 'r') as cardFile:
               card = cardFile.read()
           card = converter(card)
           cards.append(card)
-      with open('/home/roman/card_deck.txt', 'w') as deck:
+          
+      with open('%s/card_deck.txt' % currentDir, 'w') as deck:
           deck.write('\n'.join(cards))
           notification('Complete', target)
           
