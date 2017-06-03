@@ -1,21 +1,4 @@
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #  Usually these files are written by a python script from a template
 #  before PyInstaller builds the exe, so as to inject date/other infos into it.
 # Byte-compiled / optimized / DLL files
@@ -37,6 +20,8 @@
 # dotenv
 # pyenv
 # virtualenv
+*~
+*.py
 *$py.class
 *,cover
 *.egg
@@ -64,8 +49,6 @@
 .tox/
 .webassets-cache
 /install.sh
-/mnemosyne-converter.org~
-/qstardict-to-mnemosyne.py~
 ENV/
 __pycache__/
 build/
