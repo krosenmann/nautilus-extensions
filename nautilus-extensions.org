@@ -1,5 +1,6 @@
 #+TITLE: KR's Extensions of the Nautilus
 #+AUTOR: Роман Зайруллин
+#+STARTUP: showall
 * TODO Установка
 C-c C-v t
 C-c в блоке Install
@@ -61,10 +62,6 @@ facilities вчт. аппаратура facilities вчт. средства faci
 и из меню Scripts (Сценарии) запустите mnemosyne-converter.py
 #+begin_src python -n :tangle qstardict-to-mnemosyne.py
   import os
-  # import pygi
-  # import gi
-  # gi.require_version('Gtk', '3.0')
-  # from gi.repository import Gtk
   import notify2
   notify2.init('mnemosyne')
   import re
@@ -141,7 +138,31 @@ Xh	Xhu<br>Xhi<br>Jii
 * TODO Git extensions
 
 ** Функции
-   + Изменение иконки папок, содержащих гит-репозиторий. 
+   + Добавления эмблемы к папкам, содержащим гит-репозиторий. 
+     http://pictonic.co
+     [[file:vc_git.png]]
+     http://openiconlibrary.sourceforge.net/
+     [[file:724-git.png]]
+     #+begin_src python -n :tangle naugit.py
+       import sys, subprocess,
+       import os
+       from gi.repository import Nautilus, GObject
+
+       def is_git_repo(path):
+           pass
+
+       def indexed_files(path):
+           pass
+
+       def run(args):
+           p = subprocess.Popen(
+               args,
+               stdout = subprocess.PIPE,
+               stderr = subprocess.PIPE)
+           out, err = p.communicate()
+           return out.decode("utf-8")
+
+     #+end_src
    + Подсветка индексируемых файлов.
    + Подсветка игнорируеымх файлов.
    + Перманентное отображение статуса
@@ -149,6 +170,9 @@ Xh	Xhu<br>Xhi<br>Jii
      - История
 
 ** Установка
+   #+begin_src sh :tangle no
+     sudo cp emblem-branch.png emblem-vcs.png /usr/share/icons/gnome/24x24/emblems/
+   #+end_src
 
 * Footnotes
 
